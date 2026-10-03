@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conciliación Amazon Seller V2 → ContaSOL y Holded</title>
+  <meta name="description" content="Convierte tu liquidación de Amazon Seller (Settlement Report Flat File V2) en una conciliación estructurada lista para revisar e importar en ContaSOL y Holded.">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .drag-active {
+      border-color: #0284c7 !important;
+      background-color: #f0f7ff !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- TOP PRIVACY BANNER -->
+  <aside aria-label="Aviso de privacidad" class="bg-slate-800 text-slate-200 text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-2 border-b border-slate-700">
+    <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+    <span>Tu archivo se procesa directamente en tu navegador y no se envía a nuestros servidores.</span>
+  </aside>
+
+  <!-- NAVIGATION -->
+  <header class="border-b border-slate-200 bg-white sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">A</div>
+        <span class="font-bold text-slate-800 tracking-tight text-lg">Amazon<span class="text-brand-600">2PGC</span></span>
+        <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full ml-1 border border-slate-200">Smoke Test</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+        <a href="#como-funciona" class="hover:text-brand-600 transition-colors">Cómo funciona</a>
+        <a href="#demo" class="hover:text-brand-600 transition-colors">Demo interactiva</a>
+        <a href="#precios" class="hover:text-brand-600 transition-colors">Precios estimados</a>
+        <a href="#faq" class="hover:text-brand-600 transition-colors">Preguntas frecuentes</a>
+      </nav>
+      <a href="#demo" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition-all">
+        Probar con mi liquidación
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="py-14 md:py-20 bg-gradient-to-b from-white to-slate-50 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      
+      <!-- Target Badge -->
+      <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border border-slate-200">
+        <span>Para Gestorías y Contables de Sellers en España</span>
+      </div>
+
+      <h1 class="text-3xl md:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight md:leading-tight mb-6">
+        De liquidación Amazon a <span class="text-brand-600">conciliación estructurada</span> en segundos.
+      </h1>
+
+      <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-4">
+        Convierte tu liquidación de Amazon Seller en una conciliación estructurada lista para revisar e importar. Comprueba el cuadre matemático con el ingreso bancario y prepara el borrador de diario para <strong>ContaSOL</strong> o <strong>Holded</strong>.
+      </p>
+
+      <p class="text-xs text-slate-500 max-w-xl mx-auto mb-8 bg-slate-100 p-2 rounded-lg border border-slate-200">
+        <em>Nota:</em> La clasificación contable es configurable y debe revisarse antes de contabilizar.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
+        <a href="#demo" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-bold px-7 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all text-base flex items-center justify-center gap-2">
+          <span>Probar con mi liquidación</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </a>
+        <a href="#como-funciona" class="w-full sm:w-auto bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3.5 rounded-xl border border-slate-300 shadow-sm transition-all text-base">
+          Ver cómo funciona
+        </a>
+      </div>
+
+      <!-- Technical Trust Features -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto text-xs text-slate-500 pt-4 border-t border-slate-200">
+        <div class="flex items-center justify-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <span>Sin API de Amazon ni credenciales</span>
+        </div>
+        <div class="flex items-center justify-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <span>Procesado en memoria local</span>
+        </div>
+        <div class="flex items-center justify-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <span>Estándar oficial Flat File V2</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EL PROBLEMA EXPLICADO -->
+  <section id="como-funciona" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">El problema operativo de la liquidación quincenal</h2>
+        <p class="text-slate-600 max-w-xl mx-auto">El banco recibe un único importe neto. La contabilidad necesita entender de dónde sale cada partida.</p>
+      </div>
+
+      <!-- Visual Flow -->
+      <div class="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mb-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+          
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm w-full md:w-48">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Input Amazon</span>
+            <p class="font-bold text-slate-800 text-sm mt-1">Settlement Flat File V2</p>
+            <p class="text-xs text-slate-500 mt-1">Miles de filas en texto plano (.txt)</p>
+          </div>
+
+          <div class="text-slate-400 font-bold text-xl md:rotate-0 rotate-90">→</div>
+
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm w-full md:w-56 text-left text-xs space-y-1">
+            <span class="font-bold text-slate-700 block text-center mb-1">Conceptos agregados</span>
+            <div class="flex justify-between text-slate-600"><span>Ventas brutas:</span><span class="text-emerald-700 font-medium">+ItemPrice</span></div>
+            <div class="flex justify-between text-slate-600"><span>Comisiones venta:</span><span class="text-red-600 font-medium">-Commission</span></div>
+            <div class="flex justify-between text-slate-600"><span>Logística FBA:</span><span class="text-red-600 font-medium">-FBAPerUnit</span></div>
+            <div class="flex justify-between text-slate-600"><span>Publicidad Ads:</span><span class="text-red-600 font-medium">-Advertising</span></div>
+            <div class="flex justify-between text-slate-600"><span>Reservas retenidas:</span><span class="text-amber-700 font-medium">±Reserve</span></div>
+          </div>
+
+          <div class="text-slate-400 font-bold text-xl md:rotate-0 rotate-90">→</div>
+
+          <div class="bg-brand-50 border border-brand-200 p-4 rounded-xl shadow-sm w-full md:w-56">
+            <span class="text-xs font-semibold text-brand-700 uppercase">Abono Neto</span>
+            <p class="font-bold text-brand-900 text-lg mt-0.5">Transferencia</p>
+            <p class="text-xs text-brand-700 mt-1">Ingreso único en cuenta corriente</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="bg-slate-100 border-l-4 border-slate-500 p-4 rounded-r-lg text-slate-700 text-xs">
+        <strong>Aviso de alcance:</strong> Esta herramienta realiza la <em>conciliación matemática</em> y genera un <em>borrador contable estructurado</em>. No constituye asesoramiento contable ni fiscal. La clasificación de cuentas debe ser validada por un profesional cualificado según el plan contable específico de la empresa.
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO INTERACTIVA / DROPZONE SECTION -->
+  <section id="demo" class="py-16 bg-slate-100 flex-1">
+    <div class="max-w-4xl mx-auto px-4">
+      
+      <div class="text-center mb-8">
+        <span class="text-xs bg-brand-100 text-brand-800 font-bold px-3 py-1 rounded-full uppercase tracking-wider">Demo de Conciliación</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Prueba con tu liquidación</h2>
+        <p class="text-slate-600 text-sm mt-1">Arrastra tu archivo <code class="bg-white px-1.5 py-0.5 rounded border border-slate-300 text-slate-800">.txt</code> o <code class="bg-white px-1.5 py-0.5 rounded border border-slate-300 text-slate-800">.tsv</code> descargado de Amazon Seller Central.</p>
+      </div>
+
+      <!-- DROPZONE CARD -->
+      <div id="dropzone" class="bg-white rounded-2xl border-2 border-dashed border-slate-300 hover:border-brand-500 p-8 text-center transition-all cursor-pointer shadow-sm relative">
+        <input type="file" id="fileInput" accept=".txt,.tsv" class="hidden">
+        
+        <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-sm">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+        </div>
+
+        <h3 class="text-lg font-bold text-slate-800">Arrastra aquí tu Settlement Report V2</h3>
+        <p class="text-sm text-slate-500 mt-1">o haz clic para seleccionar desde tu ordenador (.txt / .tsv)</p>
+
+        <div class="mt-5 flex items-center justify-center gap-3">
+          <span class="text-xs text-slate-400">— o bien —</span>
+          <button type="button" id="btnLoadSample" class="text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 transition-colors">
+            Cargar ejemplo sintético de prueba (.txt)
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-500 mt-4 flex items-center justify-center gap-1">
+          <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          Tu archivo se procesa directamente en tu navegador y no se envía a nuestros servidores.
+        </p>
+      </div>
+
+      <!-- ERROR ALERT -->
+      <div id="errorAlert" class="hidden mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg text-red-800 text-sm">
+        <div class="flex items-start gap-2">
+          <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div>
+            <strong class="font-bold" id="errorTitle">Error al procesar el archivo</strong>
+            <p class="text-xs mt-0.5" id="errorMessage">El archivo no corresponde al formato esperado.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS CONTAINER (Hidden by default) -->
+      <div id="resultsContainer" class="hidden mt-8 space-y-6">
+
+        <!-- SAMPLE DATA WARNING BANNER -->
+        <div id="sampleWarningBanner" class="hidden bg-blue-50 border border-blue-200 text-blue-800 p-3 rounded-xl text-xs flex items-center justify-between">
+          <span>ℹ️ <strong>Ejemplo de demostración (datos sintéticos anonimizados):</strong> Archivo de prueba con estructura oficial V2.</span>
+          <span class="text-[10px] text-blue-600">Sin datos reales</span>
+        </div>
+
+        <!-- 1. DETECTED SETTLEMENT META CARD -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Liquidación analizada</span>
+              <h3 class="text-xl font-bold text-slate-900 mt-0.5" id="metaSettlementId">Settlement: #18492049181</h3>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Neto transferido según archivo</span>
+              <p class="text-2xl font-black text-brand-600" id="metaTotalAmount">0,00 €</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 text-xs">
+            <div>
+              <span class="text-slate-400 block">Periodo liquidado:</span>
+              <strong class="text-slate-700" id="metaPeriodo">—</strong>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Fecha abono bancario:</span>
+              <strong class="text-slate-700" id="metaFechaAbono">—</strong>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Moneda:</span>
+              <strong class="text-slate-700" id="metaCurrency">EUR</strong>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Volumen procesado:</span>
+              <strong class="text-slate-700" id="metaLines">0 líneas / 0 pedidos</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. RECONCILIACIÓN MATEMÁTICA Y AUDITORÍA DE CUADRE -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Desglose Categorizado (Col 1 & 2) -->
+          <div class="md:col-span-2 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-800 text-sm mb-1 flex items-center justify-between">
+              <span>Reconciliación de Movimientos</span>
+              <span class="text-xs font-normal text-slate-400">Desglose de partidas</span>
+            </h4>
+            <p class="text-[11px] text-slate-400 mb-3">Los movimientos procesados explican el importe de la liquidación bancaria.</p>
+
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  Ventas de productos (ItemPrice)
+                </span>
+                <strong class="text-emerald-700" id="rowVentas">+0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  Envíos y suplementos cobrados
+                </span>
+                <strong class="text-emerald-700" id="rowEnvios">+0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                  Descuentos y promociones
+                </span>
+                <strong class="text-red-600" id="rowPromociones">-0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  Comisiones comerciales Amazon
+                </span>
+                <strong class="text-red-600" id="rowComisiones">-0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  Tarifas logísticas FBA
+                </span>
+                <strong class="text-red-600" id="rowFba">-0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                  Reembolsos y devoluciones
+                </span>
+                <strong class="text-red-600" id="rowReembolsos">-0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                  Publicidad Sponsored Products
+                </span>
+                <strong class="text-red-600" id="rowPublicidad">-0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                  Almacenaje y suscripciones
+                </span>
+                <strong class="text-slate-700" id="rowAlmacen">-0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-600 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  Ajuste de Reserva de garantía
+                </span>
+                <strong class="text-slate-700" id="rowReservas">±0,00 €</strong>
+              </div>
+
+              <!-- Unclassified row if present -->
+              <div id="rowUnclassifiedContainer" class="hidden flex justify-between py-1.5 border-b border-amber-200 bg-amber-50/50 px-2 rounded">
+                <span class="text-amber-800 font-medium flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+                  Movimientos pendientes de clasificar
+                </span>
+                <strong class="text-amber-800" id="rowUnclassified">0,00 €</strong>
+              </div>
+
+              <div class="flex justify-between pt-2 font-bold text-slate-900 text-base">
+                <span>Neto calculado de liquidación:</span>
+                <span class="text-brand-700" id="rowNetoCalculado">0,00 €</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Cuadre Matemático (Col 3) -->
+          <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Auditoría Matemática</span>
+              <h4 class="font-bold text-slate-800 text-sm mt-1">Cuadre con Abono</h4>
+
+              <div class="mt-4 space-y-3 text-xs">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <span class="text-slate-400 block">Total informado en archivo:</span>
+                  <strong class="text-slate-800 text-sm" id="cardSettlementTotal">0,00 €</strong>
+                </div>
+
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <span class="text-slate-400 block">Suma de Movimientos:</span>
+                  <strong class="text-slate-800 text-sm" id="cardCalculatedTotal">0,00 €</strong>
+                </div>
+              </div>
+
+              <!-- Cuadre Status -->
+              <div id="balanceStatusBox" class="mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
+                <span class="text-xs text-emerald-700 block font-semibold">Diferencia:</span>
+                <strong class="text-emerald-800 text-lg" id="cardDifference">0,00 €</strong>
+                <span class="text-[11px] text-emerald-700 block mt-0.5" id="cardDifferenceLabel">✓ La liquidación cuadra matemáticamente.</span>
+              </div>
+            </div>
+
+            <div class="mt-6 text-[11px] text-slate-400">
+              * El cuadre matemático confirma que todas las líneas del informe suman el abono. No sustituye la revisión contable.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. BORRADOR CONTABLE CONFIGURABLE -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Borrador Contable (Estructura de Diario)</h4>
+              <p class="text-xs text-slate-500">Propuesta estructurada que debe ser revisada antes de importar.</p>
+            </div>
+            <span class="text-xs bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-md font-semibold">Borrador sujeto a revisión</span>
+          </div>
+
+          <!-- Alert if items need review -->
+          <div id="unclassifiedWarning" class="hidden mb-4 p-3 bg-amber-50 border-l-4 border-amber-500 text-amber-900 text-xs rounded-r-lg">
+            <strong>Atención:</strong> Existen movimientos no clasificados automáticamente con certeza. Se muestran marcados como <code>REVISAR</code> para que el contable asigne la subcuenta correspondiente.
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-slate-600 border-y border-slate-200">
+                  <th class="py-2 px-3 font-semibold">Subcuenta</th>
+                  <th class="py-2 px-3 font-semibold">Concepto</th>
+                  <th class="py-2 px-3 font-semibold text-right">Debe</th>
+                  <th class="py-2 px-3 font-semibold text-right">Haber</th>
+                  <th class="py-2 px-3 font-semibold text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="journalTableBody" class="divide-y divide-slate-100 font-mono">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <p class="text-xs text-slate-500 mt-4 italic">
+            * La configuración de cuentas depende de la estructura contable de tu empresa. Las subcuentas mostradas son configurables para ContaSOL y Holded.
+          </p>
+
+          <!-- CTA BAR -->
+          <div class="mt-6 pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-brand-50/50 -mx-6 -mb-6 p-6 rounded-b-2xl">
+            <div>
+              <strong class="text-slate-900 text-sm block">Tu liquidación está analizada y verificada.</strong>
+              <span class="text-xs text-slate-500">Puedes descargar el archivo estructurado para continuar tu trabajo en ContaSOL / Holded.</span>
+            </div>
+            <button type="button" id="btnUnlockDownload" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition-all text-sm flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              <span>Obtener archivo estructurado</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. FORMULARIO DE FEEDBACK -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Encuesta de validación rápida (3 preguntas)</h4>
+          <p class="text-xs text-slate-500 mb-4">Ayúdanos a adaptar la exportación a tu software habitual.</p>
+
+          <form id="feedbackForm" class="space-y-4 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">1. ¿Qué software utilizas actualmente para contabilizar esta liquidación?</label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="erp" value="ContaSOL" class="text-brand-600"> <span>ContaSOL</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="erp" value="Holded" class="text-brand-600"> <span>Holded</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="erp" value="Sage 50" class="text-brand-600"> <span>Sage 50</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="erp" value="a3ASESOR" class="text-brand-600"> <span>a3ASESOR</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="erp" value="Excel" class="text-brand-600"> <span>Excel manual</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="erp" value="Otro" class="text-brand-600"> <span>Otro programa</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">2. ¿Cuánto tiempo dedicas aproximadamente a conciliar cada liquidación de Amazon?</label>
+              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="time" value="<15m" class="text-brand-600"> <span>&lt; 15 min</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="time" value="15-30m" class="text-brand-600"> <span>15–30 min</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="time" value="30-60m" class="text-brand-600"> <span>30–60 min</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="time" value="1-2h" class="text-brand-600"> <span>1–2 h</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                  <input type="radio" name="time" value=">2h" class="text-brand-600"> <span>&gt; 2 h</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label for="feedbackNeed" class="block font-semibold text-slate-700 mb-1">3. ¿Qué necesitarías exactamente para incorporar esta herramienta a tu trabajo habitual?</label>
+              <textarea id="feedbackNeed" rows="2" placeholder="Ej. Formato APU directo para ContaSOL, exportación Excel con fórmulas, mapeo de cuentas personalizado..." class="w-full p-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-[11px] text-slate-400">Tus respuestas nos ayudan a definir el desarrollo del producto.</span>
+              <button type="submit" id="btnSubmitFeedback" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
+                Guardar opinión
+              </button>
+            </div>
+            <div id="feedbackSuccess" class="hidden text-emerald-700 bg-emerald-50 p-2 rounded text-xs font-semibold text-center">
+              ✓ ¡Gracias por tu feedback! Nos ayuda a priorizar el soporte de tu software contable.
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRICING SECTION -->
+  <section id="precios" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <span class="text-xs bg-slate-100 text-slate-700 font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">Hipótesis de Precios en Validación</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Precios estimados de lanzamiento</h2>
+        <p class="text-slate-600 text-sm mt-1">Valores de referencia para evaluar viabilidad durante el smoke test.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        
+        <!-- Plan 1: Individual -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm hover:border-slate-300 transition-all">
+          <div>
+            <h3 class="font-bold text-slate-800 text-lg">Individual / Ocasional</h3>
+            <p class="text-xs text-slate-500 mt-1">Para procesar una liquidación puntual</p>
+            <div class="mt-4 mb-6">
+              <span class="text-3xl font-black text-slate-900">4,95 €</span>
+              <span class="text-xs text-slate-500">/ archivo (estimado)</span>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 1 liquidación procesada</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Resumen de conciliación bancaria</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Borrador para ContaSOL o Holded</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sin suscripción fija</li>
+            </ul>
+          </div>
+          <button type="button" onclick="openCheckout('individual', '4.95')" class="mt-6 w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs transition-colors">
+            Me interesa este plan (4,95 €)
+          </button>
+        </div>
+
+        <!-- Plan 2: Gestoría (Featured) -->
+        <div class="bg-white rounded-2xl border-2 border-brand-600 p-6 flex flex-col justify-between shadow-lg relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+            Plan Propuesto para Gestorías
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-lg">Plan Gestoría</h3>
+            <p class="text-xs text-slate-500 mt-1">Hasta 5 cuentas de vendedor Amazon</p>
+            <div class="mt-4 mb-6">
+              <span class="text-3xl font-black text-slate-900">14,90 €</span>
+              <span class="text-xs text-slate-500">/ mes (estimado)</span>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Liquidaciones quincenales ilimitadas</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Hasta 5 sellers / clientes distintos</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Mapeo de subcuentas guardado en navegador</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Formatos ContaSOL y Holded</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Acceso prioritario a novedades</li>
+            </ul>
+          </div>
+          <button type="button" onclick="openCheckout('gestoria', '14.90')" class="mt-6 w-full py-2.5 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+            Me interesa este plan (14,90 €/mes)
+          </button>
+        </div>
+
+        <!-- Plan 3: Despacho Pro -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm hover:border-slate-300 transition-all">
+          <div>
+            <h3 class="font-bold text-slate-800 text-lg">Despacho Pro</h3>
+            <p class="text-xs text-slate-500 mt-1">Para asesorías con gran cartera e-commerce</p>
+            <div class="mt-4 mb-6">
+              <span class="text-3xl font-black text-slate-900">29,90 €</span>
+              <span class="text-xs text-slate-500">/ mes (estimado)</span>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-2.5">
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sellers y empresas <strong>ilimitados</strong></li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Varios puestos de trabajo en el despacho</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Exportación a ContaSOL, Holded y Sage</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Adaptación de plantillas personalizada</li>
+            </ul>
+          </div>
+          <button type="button" onclick="openCheckout('despacho', '29.90')" class="mt-6 w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs transition-colors">
+            Me interesa este plan (29,90 €/mes)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-16 bg-slate-50 border-b border-slate-200 text-slate-700">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-slate-900 text-center mb-8">Preguntas frecuentes</h2>
+      
+      <div class="space-y-4 text-sm">
+        <div class="bg-white p-5 rounded-xl border border-slate-200">
+          <h3 class="font-bold text-slate-900 mb-1">¿Cómo descargo este archivo de Amazon Seller Central?</h3>
+          <p class="text-slate-600 text-xs">En tu panel de Amazon Seller Central, ve a <strong>Informes &gt; Pagos &gt; Todos los extractos</strong>. En la lista de liquidaciones cerradas, haz clic en el botón <strong>"Descargar informe"</strong> (archivo .txt).</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200">
+          <h3 class="font-bold text-slate-900 mb-1">¿Cómo se garantiza la confidencialidad de mis archivos?</h3>
+          <p class="text-slate-600 text-xs">Tu archivo se procesa directamente en tu navegador y no se envía a nuestros servidores. El navegador procesa los números en memoria local y ningún registro de pedidos o importes se transmite por Internet.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200">
+          <h3 class="font-bold text-slate-900 mb-1">¿Sustituye esta herramienta a mi software contable o a la declaración fiscal?</h3>
+          <p class="text-slate-600 text-xs">No. Esta herramienta se limita a realizar la conciliación matemática y preparar un borrador de diario para revisar. No genera declaraciones tributarias ni sustituye el criterio contable profesional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 py-8 text-xs text-center border-t border-slate-800">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="mb-2"><strong>Amazon2PGC</strong> — Utilidad de conciliación de liquidaciones para profesionales contables.</p>
+      <p class="text-slate-500">No vinculada, asociada ni patrocinada por Amazon Services Europe ni Software DELSOL ni Holded Technologies.</p>
+      <div class="mt-4 pt-4 border-t border-slate-800 flex justify-center gap-4 text-slate-500">
+        <a href="#demo" class="hover:text-slate-300">Demo</a>
+        <a href="#precios" class="hover:text-slate-300">Precios</a>
+        <a href="#como-funciona" class="hover:text-slate-300">Aviso de alcance</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CHECKOUT SIMULATOR / INTENT MODAL -->
+  <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <span class="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded border border-slate-200">Registro de Interés</span>
+          <h3 class="font-bold text-slate-900 text-lg mt-1" id="modalPlanTitle">Plan Seleccionado</h3>
+        </div>
+        <button type="button" onclick="closeCheckout()" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="py-4 text-xs text-slate-600 space-y-3">
+        <p>Estamos validando el formato definitivo con gestorías colaboradoras. Introduce tu correo para recibir el archivo estructurado de esta liquidación y avisarte cuando abramos el acceso completo:</p>
+        
+        <div>
+          <label for="checkoutEmail" class="block font-semibold text-slate-700 mb-1">Email profesional (gestoría o empresa):</label>
+          <input type="email" id="checkoutEmail" placeholder="tu.nombre@asesoria.com" class="w-full p-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label for="checkoutErp" class="block font-semibold text-slate-700 mb-1">¿Qué formato de archivo necesitas?</label>
+          <select id="checkoutErp" class="w-full p-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+            <option value="contasol">ContaSOL (.APU Excel / Libro Diario)</option>
+            <option value="holded">Holded (Plantilla oficial Libro Diario)</option>
+            <option value="excel">Excel estructurado con fórmulas de comprobación</option>
+            <option value="a3">a3ASESOR (Formato enlace)</option>
+            <option value="sage">Sage 50 España</option>
+          </select>
+        </div>
+
+        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+          <div class="flex justify-between items-center text-slate-700">
+            <span>Precio de referencia del plan:</span>
+            <strong class="text-slate-900 text-sm" id="modalPlanPrice">14,90 €</strong>
+          </div>
+          <span class="text-[10px] text-slate-500 block mt-1">* Fase de smoke test. No se realiza ningún cobro en esta fase.</span>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+        <button type="button" onclick="closeCheckout()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Cerrar</button>
+        <button type="button" id="btnConfirmCheckout" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-lg shadow-sm">
+          Solicitar archivo estructurado
+        </button>
+      </div>
+
+      <div id="checkoutSuccessMessage" class="hidden mt-3 p-3 bg-emerald-50 text-emerald-800 rounded-lg text-xs font-semibold text-center">
+        ✓ ¡Solicitud registrada! Contactaremos contigo para enviarte el archivo adaptado a tu ERP.
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING ANONYMOUS METRICS BADGE (FOR EXPERIMENT AUDITING) -->
+  <div class="fixed bottom-3 right-3 z-30">
+    <button type="button" id="btnToggleMetrics" class="bg-slate-800/80 hover:bg-slate-900 text-white text-[11px] px-2.5 py-1.5 rounded-full shadow-lg backdrop-blur flex items-center gap-1.5 transition-all">
+      <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+      <span>Telemetría Anónima</span>
+    </button>
+    
+    <div id="metricsPanel" class="hidden absolute bottom-10 right-0 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 p-4 text-xs text-slate-700">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100 mb-2 font-bold text-slate-900">
+        <span>Eventos Anónimos (Local)</span>
+        <button type="button" onclick="document.getElementById('metricsPanel').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">×</button>
+      </div>
+      <div class="space-y-1 font-mono text-[11px]" id="metricsCounterList">
+        <!-- Injected via JS -->
+      </div>
+      <div class="mt-3 pt-2 border-t border-slate-100 text-[10px] text-slate-400">
+        Sin almacenamiento remoto ni datos de pedidos.
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS (RELATIVE PATHS ONLY) -->
+  <script src="parser.js"></script>
+  <script src="analytics.js"></script>
+  <script>
+    SmokeAnalytics.logEvent('landing_view');
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const btnLoadSample = document.getElementById('btnLoadSample');
+    const errorAlert = document.getElementById('errorAlert');
+    const errorMessage = document.getElementById('errorMessage');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const sampleWarningBanner = document.getElementById('sampleWarningBanner');
+    const btnUnlockDownload = document.getElementById('btnUnlockDownload');
+    const checkoutModal = document.getElementById('checkoutModal');
+    const feedbackForm = document.getElementById('feedbackForm');
+
+    let isUsingSample = false;
+
+    // Dropzone interaction
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('drag-active');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('drag-active');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        isUsingSample = false;
+        handleFile(files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        isUsingSample = false;
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    // Sample file loader (Strictly relative path)
+    btnLoadSample.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isUsingSample = true;
+      SmokeAnalytics.logEvent('file_selected', { source: 'sample_preset' });
+      fetch('tests/fixtures/sample_valid_es.txt')
+        .then(res => {
+          if (!res.ok) throw new Error('No se pudo cargar la muestra local');
+          return res.text();
+        })
+        .then(text => processFileContent(text, 'sample_valid_es.txt'))
+        .catch(err => {
+          showError('No se pudo cargar la muestra: ' + err.message);
+        });
+    });
+
+    function handleFile(file) {
+      SmokeAnalytics.logEvent('file_selected', {
+        fileExtension: file.name.split('.').pop()
+      });
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        processFileContent(e.target.result, file.name);
+      };
+      reader.onerror = function () {
+        showError('Error al leer el archivo en el navegador.');
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    function processFileContent(content, fileName) {
+      errorAlert.classList.add('hidden');
+      
+      const parsed = SettlementParser.parseSettlementReport(content);
+      if (!parsed.success) {
+        showError(parsed.message);
+        return;
+      }
+
+      SmokeAnalytics.logEvent('valid_settlement_detected', {
+        isEur: parsed.meta.isEur,
+        ordersRange: parsed.meta.totalOrders > 50 ? '>50' : '<=50'
+      });
+
+      renderResults(parsed);
+      SmokeAnalytics.logEvent('preview_generated');
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorAlert.classList.remove('hidden');
+      resultsContainer.classList.add('hidden');
+    }
+
+    function renderResults(res) {
+      const meta = res.meta;
+      const summary = res.summary;
+      const b = res.breakdown;
+
+      if (isUsingSample) {
+        sampleWarningBanner.classList.remove('hidden');
+      } else {
+        sampleWarningBanner.classList.add('hidden');
+      }
+
+      document.getElementById('metaSettlementId').textContent = `Settlement: #${meta.settlementId}`;
+      document.getElementById('metaTotalAmount').textContent = SettlementParser.formatCurrency(summary.totalAmount, meta.currency);
+      document.getElementById('metaPeriodo').textContent = `${formatDate(meta.settlementStartDate)} → ${formatDate(meta.settlementEndDate)}`;
+      document.getElementById('metaFechaAbono').textContent = formatDate(meta.depositDate);
+      document.getElementById('metaCurrency').textContent = `${meta.currency} ${meta.isEur ? '✓' : '(No-EUR)'}`;
+      document.getElementById('metaLines').textContent = `${meta.totalMovements} líneas / ${meta.totalOrders} pedidos`;
+
+      // Breakdown rows
+      document.getElementById('rowVentas').textContent = SettlementParser.formatCurrency(b.ventas, meta.currency);
+      document.getElementById('rowEnvios').textContent = SettlementParser.formatCurrency(b.envios, meta.currency);
+      document.getElementById('rowPromociones').textContent = SettlementParser.formatCurrency(b.promociones, meta.currency);
+      document.getElementById('rowComisiones').textContent = SettlementParser.formatCurrency(b.comisiones, meta.currency);
+      document.getElementById('rowFba').textContent = SettlementParser.formatCurrency(b.fba, meta.currency);
+      document.getElementById('rowReembolsos').textContent = SettlementParser.formatCurrency(b.reembolsos, meta.currency);
+      document.getElementById('rowPublicidad').textContent = SettlementParser.formatCurrency(b.publicidad, meta.currency);
+      document.getElementById('rowAlmacen').textContent = SettlementParser.formatCurrency(b.almacenaje + b.suscripcion, meta.currency);
+      document.getElementById('rowReservas').textContent = SettlementParser.formatCurrency(b.reservas, meta.currency);
+      document.getElementById('rowNetoCalculado').textContent = SettlementParser.formatCurrency(b.neto, meta.currency);
+
+      const unclassRow = document.getElementById('rowUnclassifiedContainer');
+      if (res.hasUnclassifiedItems) {
+        unclassRow.classList.remove('hidden');
+        document.getElementById('rowUnclassified').textContent = SettlementParser.formatCurrency(b.otros, meta.currency);
+        document.getElementById('unclassifiedWarning').classList.remove('hidden');
+      } else {
+        unclassRow.classList.add('hidden');
+        document.getElementById('unclassifiedWarning').classList.add('hidden');
+      }
+
+      // Mathematical Audit card
+      document.getElementById('cardSettlementTotal').textContent = SettlementParser.formatCurrency(summary.totalAmount, meta.currency);
+      document.getElementById('cardCalculatedTotal').textContent = SettlementParser.formatCurrency(summary.totalCalculated, meta.currency);
+      document.getElementById('cardDifference').textContent = SettlementParser.formatCurrency(summary.difference, meta.currency);
+      
+      const balanceBox = document.getElementById('balanceStatusBox');
+      const diffLabel = document.getElementById('cardDifferenceLabel');
+      if (summary.isBalanced) {
+        balanceBox.className = 'mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-center';
+        diffLabel.textContent = '✓ La liquidación cuadra matemáticamente.';
+      } else {
+        balanceBox.className = 'mt-4 p-3 rounded-xl bg-amber-50 border border-amber-300 text-center';
+        diffLabel.textContent = '⚠ Diferencia detectada frente al informe de Amazon.';
+      }
+
+      // Journal Table
+      const tbody = document.getElementById('journalTableBody');
+      tbody.innerHTML = '';
+      res.journalPreview.forEach(entry => {
+        const tr = document.createElement('tr');
+        const isReview = entry.status === 'REVISAR';
+        tr.className = isReview ? 'bg-amber-50/70 font-semibold' : '';
+        tr.innerHTML = `
+          <td class="py-2 px-3 font-bold ${isReview ? 'text-amber-800' : 'text-slate-800'}">${entry.account}</td>
+          <td class="py-2 px-3 text-slate-600 font-sans">${entry.name} <span class="text-[10px] text-slate-400 block">${entry.desc}</span></td>
+          <td class="py-2 px-3 text-right ${entry.debe > 0 ? 'text-slate-900 font-semibold' : 'text-slate-300'}">${entry.debe > 0 ? SettlementParser.formatCurrency(entry.debe, meta.currency) : '—'}</td>
+          <td class="py-2 px-3 text-right ${entry.haber > 0 ? 'text-slate-900 font-semibold' : 'text-slate-300'}">${entry.haber > 0 ? SettlementParser.formatCurrency(entry.haber, meta.currency) : '—'}</td>
+          <td class="py-2 px-3 text-center">
+            <span class="text-[10px] px-1.5 py-0.5 rounded font-sans ${isReview ? 'bg-amber-200 text-amber-900 font-bold' : 'bg-slate-100 text-slate-600'}">${entry.status}</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      resultsContainer.classList.remove('hidden');
+      resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function formatDate(isoStr) {
+      if (!isoStr) return '—';
+      try {
+        const d = new Date(isoStr);
+        return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      } catch (e) {
+        return isoStr;
+      }
+    }
+
+    // Modal Trigger
+    btnUnlockDownload.addEventListener('click', () => {
+      openCheckout('gestoria', '14.90');
+    });
+
+    function openCheckout(planName, price) {
+      SmokeAnalytics.logEvent('checkout_clicked', { planType: planName });
+      document.getElementById('modalPlanTitle').textContent = `Interés en Plan ${planName.toUpperCase()}`;
+      document.getElementById('modalPlanPrice').textContent = `${price} € (estimado)`;
+      checkoutModal.classList.remove('hidden');
+      SmokeAnalytics.logEvent('checkout_started', { planType: planName });
+    }
+
+    function closeCheckout() {
+      checkoutModal.classList.add('hidden');
+      document.getElementById('checkoutSuccessMessage').classList.add('hidden');
+    }
+
+    document.getElementById('btnConfirmCheckout').addEventListener('click', () => {
+      const email = document.getElementById('checkoutEmail').value.trim();
+      const erp = document.getElementById('checkoutErp').value;
+      if (!email || !email.includes('@')) {
+        alert('Por favor, introduce un correo electrónico válido.');
+        return;
+      }
+
+      SmokeAnalytics.logEvent('qualified_lead', {
+        selectedErp: erp
+      });
+
+      document.getElementById('checkoutSuccessMessage').classList.remove('hidden');
+      setTimeout(() => {
+        closeCheckout();
+      }, 3000);
+    });
+
+    // Feedback Form Submission
+    feedbackForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const erp = (document.querySelector('input[name="erp"]:checked') || {}).value || 'No especificado';
+      const time = (document.querySelector('input[name="time"]:checked') || {}).value || 'No especificado';
+      const need = document.getElementById('feedbackNeed').value.trim();
+
+      SmokeAnalytics.logEvent('feedback_submitted', {
+        reportedErp: erp,
+        reportedTime: time,
+        hasNeedText: need.length > 0
+      });
+
+      document.getElementById('feedbackSuccess').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('feedbackSuccess').classList.add('hidden');
+      }, 4000);
+    });
+
+    // Floating Metrics Panel
+    const btnToggleMetrics = document.getElementById('btnToggleMetrics');
+    const metricsPanel = document.getElementById('metricsPanel');
+    const metricsCounterList = document.getElementById('metricsCounterList');
+
+    btnToggleMetrics.addEventListener('click', () => {
+      metricsPanel.classList.toggle('hidden');
+      refreshMetricsDisplay();
+    });
+
+    window.addEventListener('smoke_event_logged', () => {
+      refreshMetricsDisplay();
+    });
+
+    function refreshMetricsDisplay() {
+      const summary = SmokeAnalytics.getSummary();
+      metricsCounterList.innerHTML = '';
+      Object.keys(summary.counters).forEach(k => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between text-slate-600';
+        div.innerHTML = `<span>${k}:</span> <strong class="text-brand-600 font-bold">${summary.counters[k]}</strong>`;
+        metricsCounterList.appendChild(div);
+      });
+      if (Object.keys(summary.counters).length === 0) {
+        metricsCounterList.innerHTML = '<span class="text-slate-400">Sin eventos registrados aún</span>';
+      }
+    }
+
+    // Pricing view intersection observer
+    const pricingSection = document.getElementById('precios');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          SmokeAnalytics.logEvent('pricing_view');
+          observer.unobserve(pricingSection);
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(pricingSection);
+  </script>
+</body>
+</html>

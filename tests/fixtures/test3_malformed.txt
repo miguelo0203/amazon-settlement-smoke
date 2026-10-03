@@ -1,0 +1,2 @@
+Esto no es un archivo de liquidacion de Amazon
+Línea 2 de texto plano sin tabuladores ni cabeceras validas.

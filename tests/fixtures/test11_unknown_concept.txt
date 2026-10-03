@@ -1,0 +1,4 @@
+settlement-id	settlement-start-date	settlement-end-date	deposit-date	total-amount	currency	transaction-type	order-id	merchant-order-id	adjustment-id	shipment-id	marketplace-name	amount-type	amount-description	amount	fulfillment-id	posted-date	posted-date-time	order-item-code	merchant-order-item-id	merchant-adjustment-item-id	sku	quantity-purchased	promotion-id
+99112233	2026-09-01	2026-09-15	2026-09-17	180,00	EUR																		
+99112233					EUR	Order	101				Amazon.es	ItemPrice	Principal	200,00									
+99112233					EUR	ServiceFee					Amazon.es	CustomPlatformTariff	UnknownSpecialFee	-20,00									

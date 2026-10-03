@@ -1,0 +1,48 @@
+settlement-id	settlement-start-date	settlement-end-date	deposit-date	total-amount	currency	transaction-type	order-id	merchant-order-id	adjustment-id	shipment-id	marketplace-name	amount-type	amount-description	amount	fulfillment-id	posted-date	posted-date-time	order-item-code	merchant-order-item-id	merchant-adjustment-item-id	sku	quantity-purchased	promotion-id
+18492049181	2026-09-15T00:00:00+00:00	2026-09-29T00:00:00+00:00	2026-10-01T06:12:00+00:00	141.63	EUR																		
+18492049181					EUR	Order	405-8192301-1000001				Amazon.es	ItemPrice	Principal	69.57		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-001	1	
+18492049181					EUR	Order	405-8192301-1000001				Amazon.es	ItemPrice	Shipping	3.99		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-001	1	
+18492049181					EUR	Order	405-8192301-1000001				Amazon.es	ItemFees	Commission	-10.44		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-001	1	
+18492049181					EUR	Order	405-8192301-1000001				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-2.85		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-001	1	
+18492049181					EUR	Order	405-8192301-1000002				Amazon.es	ItemPrice	Principal	56.50		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-002	1	
+18492049181					EUR	Order	405-8192301-1000002				Amazon.es	ItemPrice	Shipping	4.95		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-002	1	
+18492049181					EUR	Order	405-8192301-1000002				Amazon.es	ItemFees	Commission	-8.47		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-002	1	
+18492049181					EUR	Order	405-8192301-1000002				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-2.85		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-002	1	
+18492049181					EUR	Order	405-8192301-1000003				Amazon.es	ItemPrice	Principal	17.36		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-003	1	
+18492049181					EUR	Order	405-8192301-1000003				Amazon.es	ItemPrice	Shipping	3.99		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-003	1	
+18492049181					EUR	Order	405-8192301-1000003				Amazon.es	ItemFees	Commission	-2.60		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-003	1	
+18492049181					EUR	Order	405-8192301-1000003				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-2.85		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-003	1	
+18492049181					EUR	Order	405-8192301-1000004				Amazon.es	ItemPrice	Principal	69.12		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-004	1	
+18492049181					EUR	Order	405-8192301-1000004				Amazon.es	ItemPrice	Shipping	3.99		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-004	1	
+18492049181					EUR	Order	405-8192301-1000004				Amazon.es	ItemFees	Commission	-10.37		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-004	1	
+18492049181					EUR	Order	405-8192301-1000004				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-5.10		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-004	1	
+18492049181					EUR	Order	405-8192301-1000005				Amazon.es	ItemPrice	Principal	55.13		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-005	1	
+18492049181					EUR	Order	405-8192301-1000005				Amazon.es	ItemFees	Commission	-8.27		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-005	1	
+18492049181					EUR	Order	405-8192301-1000005				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-4.20		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-005	1	
+18492049181					EUR	Order	405-8192301-1000006				Amazon.es	ItemPrice	Principal	23.71		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-006	1	
+18492049181					EUR	Order	405-8192301-1000006				Amazon.es	ItemFees	Commission	-3.56		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-006	1	
+18492049181					EUR	Order	405-8192301-1000006				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-5.10		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-006	1	
+18492049181					EUR	Order	405-8192301-1000007				Amazon.es	ItemPrice	Principal	39.04		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-007	1	
+18492049181					EUR	Order	405-8192301-1000007				Amazon.es	ItemPrice	Shipping	3.99		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-007	1	
+18492049181					EUR	Order	405-8192301-1000007				Amazon.es	ItemFees	Commission	-5.86		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-007	1	
+18492049181					EUR	Order	405-8192301-1000007				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-2.85		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-007	1	
+18492049181					EUR	Order	405-8192301-1000008				Amazon.es	ItemPrice	Principal	34.03		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-008	1	
+18492049181					EUR	Order	405-8192301-1000008				Amazon.es	ItemPrice	Shipping	4.95		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-008	1	
+18492049181					EUR	Order	405-8192301-1000008				Amazon.es	ItemFees	Commission	-5.10		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-008	1	
+18492049181					EUR	Order	405-8192301-1000008				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-3.45		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-008	1	
+18492049181					EUR	Order	405-8192301-1000009				Amazon.es	ItemPrice	Principal	38.65		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-009	1	
+18492049181					EUR	Order	405-8192301-1000009				Amazon.es	ItemPrice	Shipping	3.99		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-009	1	
+18492049181					EUR	Order	405-8192301-1000009				Amazon.es	ItemFees	Commission	-5.80		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-009	1	
+18492049181					EUR	Order	405-8192301-1000009				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-2.85		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-009	1	
+18492049181					EUR	Order	405-8192301-1000010				Amazon.es	ItemPrice	Principal	39.05		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-010	1	
+18492049181					EUR	Order	405-8192301-1000010				Amazon.es	ItemFees	Commission	-5.86		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-010	1	
+18492049181					EUR	Order	405-8192301-1000010				Amazon.es	ItemFees	FBAPerUnitFulfillmentFee	-3.45		18/09/2026	2026-09-18T10:15:20+00:00				PROD-ES-010	1	
+18492049181					EUR	Order	405-8192301-1000001				Amazon.es	Promotion	Principal	-10.00		20/09/2026	2026-09-20T14:10:00+00:00				PROD-ES-001	1	SPRING_DISCOUNT
+18492049181					EUR	Refund	405-8192301-1000005				Amazon.es	ItemPrice	Principal	-35.00		25/09/2026	2026-09-25T09:30:00+00:00				PROD-ES-005	1	
+18492049181					EUR	Refund	405-8192301-1000005				Amazon.es	ItemFees	Commission	5.25		25/09/2026	2026-09-25T09:30:00+00:00				PROD-ES-005	1	
+18492049181					EUR	Refund	405-8192301-1000005				Amazon.es	ItemFees	RefundCommission	-1.05		25/09/2026	2026-09-25T09:30:00+00:00				PROD-ES-005	1	
+18492049181					EUR	ServiceFee					Amazon.es	ServiceFee	Subscription	-39.00		20/09/2026	2026-09-20T00:00:00+00:00						
+18492049181					EUR	ServiceFee					Amazon.es	ServiceFee	Cost of Advertising	-84.50		28/09/2026	2026-09-28T23:59:59+00:00						
+18492049181					EUR	ServiceFee					Amazon.es	ServiceFee	FBAStorageFee	-14.20		28/09/2026	2026-09-28T00:00:00+00:00						
+18492049181					EUR	other-transaction						Reserve Amount	Previous Reserve Amount	200.00		15/09/2026	2026-09-15T00:00:00+00:00						
+18492049181					EUR	other-transaction						Reserve Amount	Current Reserve Amount	-250.00		29/09/2026	2026-09-29T23:59:59+00:00						

@@ -1,0 +1,3 @@
+settlement-id	settlement-start-date	settlement-end-date	deposit-date	total-amount	currency	transaction-type	order-id	merchant-order-id	adjustment-id	shipment-id	marketplace-name	amount-type	amount-description	amount	fulfillment-id	posted-date	posted-date-time	order-item-code	merchant-order-item-id	merchant-adjustment-item-id	sku	quantity-purchased	promotion-id
+99887766	2026-09-01T00:00:00Z	2026-09-15T00:00:00Z	2026-09-17T00:00:00Z	1450.00	USD																		
+99887766					USD	Order	111-222-333					ItemPrice	Principal	1450.00									

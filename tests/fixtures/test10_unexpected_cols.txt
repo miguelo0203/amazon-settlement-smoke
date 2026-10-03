@@ -1,0 +1,3 @@
+settlement-id	settlement-start-date	settlement-end-date	deposit-date	total-amount	currency	transaction-type	order-id	merchant-order-id	adjustment-id	shipment-id	marketplace-name	amount-type	amount-description	amount	fulfillment-id	posted-date	posted-date-time	order-item-code	merchant-order-item-id	merchant-adjustment-item-id	sku	quantity-purchased	promotion-id	extra_unknown_col_1	vendor_flag
+55443322				50.00	EUR																			extra_val_1	TRUE
+55443322					EUR	Order	111-222-444					ItemPrice	Principal	50.00										extra_val_2	FALSE
