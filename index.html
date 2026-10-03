@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Conciliación Amazon Seller V2 → ContaSOL y Holded</title>
   <meta name="description" content="Convierte tu liquidación de Amazon Seller (Settlement Report Flat File V2) en una conciliación estructurada lista para revisar e importar en ContaSOL y Holded.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -773,6 +774,7 @@
         showError('Error al leer el archivo en el navegador.');
       };
       reader.readAsText(file, 'UTF-8');
+      fileInput.value = '';
     }
 
     function processFileContent(content, fileName) {
